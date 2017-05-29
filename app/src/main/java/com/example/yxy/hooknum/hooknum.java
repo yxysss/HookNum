@@ -47,7 +47,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     private int evermaxchess, evermaxscore;
     private RelativeLayout maskboard, rlcurrentmasks, rlhighestmasks, rlhighesttitle;
     private TextView textcurrentmasks, highestmasks, highesttitle;
-    private ImageView pending1, pending2;
+    private ImageView pending1, pending2, pending1cover;
     private int pending1value, pending2value;
     private RelativeLayout.LayoutParams maskboardlp, pending1lp, pending2lp, progressbarlp, rlcurrentmaskslp, rlhighestmaskslp, rlhighesttitlelp;
     private MyProgressBar progressBar;
@@ -87,16 +87,18 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         highesttitle.setTextSize(smallchessWidth/8);
         pending1 = (ImageView) findViewById(R.id.pending1);
         pending2 = (ImageView) findViewById(R.id.pending2);
-        pending1.setImageResource(R.color.colorAccent);
-        pending2.setImageResource(R.color.colorAccent);
+        pending1cover = (ImageView) findViewById(R.id.pending1cover);
         pending1lp = new RelativeLayout.LayoutParams(smallchessWidth*8/10, smallchessWidth*8/10);
         pending1lp.setMargins(0, 0, smallchessmargin, smallchessmargin);
         pending1lp.addRule(RelativeLayout.ALIGN_PARENT_END);
         pending1lp.addRule(RelativeLayout.ABOVE, R.id.progressbar);
         pending1.setLayoutParams(pending1lp);
+        pending1cover.setLayoutParams(pending1lp);
         pending1value = 1;
         pending1.setImageResource(getImageId(pending1value));
         pending1.setZ(20);
+        pending1cover.setZ(10);
+        pending1cover.setImageResource(getImageId(0));
         pending2lp = new RelativeLayout.LayoutParams(smallchessWidth/2, smallchessWidth/2);
         pending2lp.setMargins(0, 0, smallchessmargin, smallchessmargin);
         pending2lp.addRule(RelativeLayout.LEFT_OF, R.id.pending1);
@@ -104,13 +106,10 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         pending2.setLayoutParams(pending2lp);
         pending2value = 1;
         pending2.setImageResource(getImageId(pending2value));
-
-        Log.d("progressBar", "progressBar");
     }
 
     private int chess[][] = new int[10][10];
     private int hassavedbefore = 0;
-    private int savedchess[][] = new int[10][10];
     private int checkhassaved() {
         return 1;
     }
@@ -118,19 +117,6 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         for(int i = 0; i <= 5; i ++) {
             for(int j = 0; j <= 5; j ++) {
                 chess[i][j] = -1;
-            }
-        }
-        if(checkhassaved() == hassavedbefore) {
-            for(int i = 1; i <= 4; i ++) {
-                for(int j = 1; j <= 4; j ++) {
-                    chess[i][j] = savedchess[i][j];
-                }
-            }
-        } else {
-            for(int i = 1; i <= 4; i ++) {
-                for(int j = 1; j <= 4; j ++) {
-                    chess[i][j] = 0;
-                }
             }
         }
     }
@@ -148,7 +134,6 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         chessboardlp.addRule(RelativeLayout.ABOVE, R.id.itemsboard);
         chessboard.setLayoutParams(chessboardlp);
         chessboardbackground = (ImageView) findViewById(R.id.chessboardbackground);
-        //chessboardbackground.setLayoutParams(chessboardlp);
         chessboardbackground.setImageResource(R.color.chessboardbackground);
         for(int i = 1; i <= 4; i ++) {
             for(int j = 1; j <= 4; j ++) {
@@ -323,7 +308,6 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
             public void onClick(View v) {
                 menudialog.show();
                 menudialog.getWindow().setLayout(DisplayWidth*3/4, DisplayWidth*3/4);
-                // performfailure();
             }
         });
 
@@ -358,7 +342,6 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         distanceinx = targetlocation[0] - centerlocation[0];
         distanceiny = targetlocation[1] - centerlocation[1];
         double distance0 = distanceinx * distanceinx + distanceiny * distanceiny;
-        distance0 = Math.sqrt(distance0);
 
         for (int i = 1; i <= 4; i ++) {
             for (int j = 1; j <= 4; j++) {
@@ -368,9 +351,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
                 distanceinx = targetlocation[0] - centerlocation[0];
                 distanceiny = targetlocation[1] - centerlocation[1];
                 double distance = distanceinx * distanceinx + distanceiny * distanceiny;
-                distance = Math.sqrt(distance);
                 move[i*4-4+j] = new TranslateAnimation(0, distanceinx/1.25f, 0, distanceiny/1.25f);
-                //move[i*4-4+j].setDuration((int)(distance*1000/distance0));
                 move[i*4-4+j].setDuration(1000);
                 scaleAnimations[i*4-4+j] = new ScaleAnimation(1, 1.25f, 1, 1.25f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 scaleAnimations[i*4-4+j].setDuration(1000);
@@ -444,10 +425,10 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
 
     private int getStatusBarHeight() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
+        Class<?> c;
+        Object obj;
+        Field field;
+        int x , sbar = 0;
 
         try {
             c = Class.forName("com.android.internal.R$dimen");
@@ -537,7 +518,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (touchable == false) return false;
+        if (!touchable) return false;
         System.out.println("onTouch");
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -591,12 +572,11 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
     private void touchhandler(View view) {
 
-        if (animationload == false) {
+        if (!animationload) {
             loadnewmoveanimation();
             loadmoveanimation();
             fireworkprepare();
             animationload = true;
-            Log.d("getZ", "chessboard.Z : " + chessboard.getZ());
         }
 
         touchable = false;
@@ -864,6 +844,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
     // 棋子变化
     private void nextchange() {
+        pending1cover.setImageResource(getImageId(0));
         int[] location1 = new int[2];
         int[] location2 = new int[2];
         pending1.getLocationOnScreen(location1);
@@ -904,6 +885,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                pending1cover.setImageResource(getImageId(pending2value));
                 pending1.setImageResource(getImageId(0));
                 pending1value = pending2value;
                 Random random = new Random();
