@@ -1,12 +1,13 @@
 package com.example.yxy.hooknum;
 
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
 
     private int GAME_STATE = 0;
+    private int evermaxchess, evermaxscore;
     private RelativeLayout maskboard, rlcurrentmasks, rlhighestmasks, rlhighesttitle;
     private TextView textcurrentmasks, highestmasks, highesttitle;
     private ImageView pending1, pending2;
@@ -76,10 +78,10 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         textcurrentmasks.setTextSize(smallchessWidth/4);
         textcurrentmasks.setTextColor(R.color.colorAccent);
         highestmasks = (TextView) findViewById(R.id.highestmasks);
-        highestmasks.setText("0");
+        highestmasks.setText(evermaxscore+"");
         highestmasks.setTextSize(smallchessWidth/8);
         highesttitle = (TextView) findViewById(R.id.highesttitle);
-        highesttitle.setText("0");
+        highesttitle.setText(evermaxchess+"");
         highesttitle.setTextSize(smallchessWidth/8);
         pending1 = (ImageView) findViewById(R.id.pending1);
         pending2 = (ImageView) findViewById(R.id.pending2);
@@ -242,17 +244,15 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         oks.show(this);
     }
 
-    private ImageView menuitem, advitem, bombitem;
+    private ImageView menuitem;
     private ImageView imrestart, imcontinue, immusic, imshare;
     private RelativeLayout rlrestart, rlcontinue, rlmusic, rlshare;
     private View menuview;
     private TextView levelnum;
-    private RelativeLayout.LayoutParams menulp, advlp, bomblp;
+    private RelativeLayout.LayoutParams menulp;
     private RelativeLayout.LayoutParams rlrestartlp, rlcontinuelp, rlmusiclp, rlsharelp;
-    private RelativeLayout.LayoutParams imrestartlp, imcontinuelp, immusiclp, imsharelp;
+    private RelativeLayout.LayoutParams imrestartlp;
     private AlertDialog menudialog;
-    private Snackbar advsnackbar;
-    private int bombnum;
     private void loaditemview() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         menudialog = builder.create();
@@ -261,6 +261,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         rlrestartlp = new RelativeLayout.LayoutParams(DisplayWidth/3, DisplayWidth/3);
         rlrestart.setLayoutParams(rlrestartlp);
         imrestart = (ImageView) menuview.findViewById(R.id.imrestart);
+        imrestart.setImageResource(R.mipmap.restart);
         imrestartlp = new RelativeLayout.LayoutParams(DisplayWidth*4/15, DisplayWidth*4/15);
         imrestartlp.addRule(RelativeLayout.CENTER_IN_PARENT);
         imrestart.setLayoutParams(imrestartlp);
@@ -276,6 +277,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         rlcontinuelp.addRule(RelativeLayout.RIGHT_OF, R.id.rlrestart);
         rlcontinue.setLayoutParams(rlcontinuelp);
         imcontinue = (ImageView) menuview.findViewById(R.id.imcontinue);
+        imcontinue.setImageResource(R.mipmap.continue0);
         imcontinue.setLayoutParams(imrestartlp);
         imcontinue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,6 +292,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         rlmusiclp.addRule(RelativeLayout.BELOW, R.id.rlrestart);
         rlmusic.setLayoutParams(rlmusiclp);
         immusic = (ImageView) menuview.findViewById(R.id.immusic);
+        immusic.setImageResource(R.mipmap.music);
         immusic.setLayoutParams(imrestartlp);
         immusic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,6 +306,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         rlsharelp.addRule(RelativeLayout.RIGHT_OF, R.id.rlrestart);
         rlshare.setLayoutParams(rlsharelp);
         imshare = (ImageView) menuview.findViewById(R.id.imshare);
+        imshare.setImageResource(R.mipmap.share);
         imshare.setLayoutParams(imrestartlp);
         imshare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,43 +321,14 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
             public void onClick(View v) {
                 menudialog.show();
                 menudialog.getWindow().setLayout(DisplayWidth*3/4, DisplayWidth*3/4);
+                // performfailure();
             }
         });
-        advitem = (ImageView) findViewById(R.id.advitem);
-        advitem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                advsnackbar.show();
-            }
-        });
-        advsnackbar = Snackbar.make(advitem, "观看广告即可获得一次炸弹机会，一局只能使用一次哦~", Snackbar.LENGTH_SHORT)
-                .setAction("观看", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                    }
-                });
-        bombitem = (ImageView) findViewById(R.id.bombitem);
-        menuitem.setImageResource(R.color.colorPrimary);
-        advitem.setImageResource(R.color.colorPrimary);
-        bombitem.setImageResource(R.color.colorPrimary);
+        menuitem.setImageResource(R.mipmap.menu);
         menulp = new RelativeLayout.LayoutParams(itemWidth, itemWidth);
         menulp.setMargins(itemWidth/15, itemWidth/15, 0, 0);
         menuitem.setLayoutParams(menulp);
-        advlp = new RelativeLayout.LayoutParams(itemWidth, itemWidth);
-        advlp.setMargins(itemWidth/15, itemWidth/15, 0 , 0);
-        advlp.addRule(RelativeLayout.RIGHT_OF, R.id.menuitem);
-        advitem.setLayoutParams(advlp);
-        bomblp = new RelativeLayout.LayoutParams(itemWidth, itemWidth);
-        bomblp.setMargins(itemWidth/15, itemWidth/15, 0, 0);
-        bomblp.addRule(RelativeLayout.RIGHT_OF, R.id.advitem);
-        bombitem.setLayoutParams(bomblp);
-        bombitem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GAME_STATE = 1;
-            }
-        });
         levelnum = (TextView) findViewById(R.id.levelnum);
         levelnum.setTextSize(smallchessWidth/6);
         levelnum.setText("Level 1");
@@ -485,12 +460,20 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         return sbar;
     }
     private int statusbarheight;
+
+    private void getmaxchessandscore() {
+        SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
+        evermaxchess = sharedPreferences.getInt("maxchess", 0);
+        evermaxscore = sharedPreferences.getInt("maxscore", 0);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hooknum);
         statusbarheight = getStatusBarHeight();
         ActivityCollector.add(this);
+        getmaxchessandscore();
         measurechessboard();
         loadmaskboardandprogressbar();
         initchessboard();
@@ -764,20 +747,84 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         }
     }
 
-    private int chessmax;
+    private int chessmax = 1;
 
-    private RelativeLayout mainview;
+    private AlertDialog endingdialog;
 
-    private RelativeLayout failurebanner;
+    private View endingview;
 
-    private RelativeLayout.LayoutParams bannerlp;
+    private RelativeLayout rltext, rlmaxchess, rlrestart0, rlshare0;
+
+    private TextView endingtext;
+
+    private ImageView immaxchess, imrestart0, imshare0;
+
+    private RelativeLayout.LayoutParams rltextlp, rlmaxchesslp, rlrestart0lp, rlshare0lp, immaxchesslp, imrestart0lp;
 
     private void performfailure() {
-        mainview = (RelativeLayout) findViewById(R.id.activity_hooknum);
-        failurebanner = (RelativeLayout)View.inflate(this, R.layout.banner_failure, null);
-        bannerlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        failurebanner.setLayoutParams(bannerlp);
-        mainview.addView(failurebanner);
+
+        SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+
+        if (chessmax > evermaxchess) {
+            editor.putInt("maxchess", chessmax);
+        }
+        if (currentmasks > evermaxscore) {
+            editor.putInt("maxscore", currentmasks);
+        }
+        editor.apply();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        endingdialog = builder.create();
+        endingview = View.inflate(this, R.layout.dialog_ending, null);
+        rltext = (RelativeLayout) endingview.findViewById(R.id.rltext);
+        rltextlp = new RelativeLayout.LayoutParams(DisplayWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+        rltext.setLayoutParams(rltextlp);
+        rltext.setGravity(Gravity.CENTER);
+        endingtext = (TextView) endingview.findViewById(R.id.endingtext);
+        endingtext.setText("游戏结束");
+        rlmaxchess = (RelativeLayout) endingview.findViewById(R.id.rlmaxchess);
+        rlmaxchesslp = new RelativeLayout.LayoutParams(DisplayWidth, DisplayWidth);
+        rlmaxchesslp.addRule(RelativeLayout.BELOW, R.id.rltext);
+        rlmaxchess.setLayoutParams(rlmaxchesslp);
+        immaxchesslp = new RelativeLayout.LayoutParams(DisplayWidth*4/5, DisplayWidth*4/5);
+        immaxchesslp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        immaxchess = (ImageView) endingview.findViewById(R.id.immaxchess);
+        immaxchess.setImageResource(getImageId(chessmax));
+        immaxchess.setLayoutParams(immaxchesslp);
+        rlrestart0 = (RelativeLayout) endingview.findViewById(R.id.rlrestart0);
+        rlrestart0lp = new RelativeLayout.LayoutParams(DisplayWidth*4/9, DisplayWidth*4/9);
+        rlrestart0lp.addRule(RelativeLayout.BELOW, R.id.rlmaxchess);
+        rlrestart0.setLayoutParams(rlrestart0lp);
+        imrestart0lp = new RelativeLayout.LayoutParams(DisplayWidth*16/45, DisplayWidth*16/45);
+        imrestart0lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        imrestart0 = (ImageView) endingview.findViewById(R.id.imrestart0);
+        imrestart0.setImageResource(R.mipmap.restart);
+        imrestart0.setLayoutParams(imrestart0lp);
+        imrestart0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(hooknum.this, hooknum.class);
+                startActivity(intent);
+            }
+        });
+        rlshare0 = (RelativeLayout) endingview.findViewById(R.id.rlshare0);
+        rlshare0lp = new RelativeLayout.LayoutParams(DisplayWidth*4/9,DisplayWidth*4/9);
+        rlshare0lp.addRule(RelativeLayout.BELOW, R.id.rlmaxchess);
+        rlshare0lp.addRule(RelativeLayout.RIGHT_OF, R.id.rlrestart0);
+        rlshare0.setLayoutParams(rlshare0lp);
+        imshare0 = (ImageView) endingview.findViewById(R.id.imshare0);
+        imshare0.setImageResource(R.mipmap.share);
+        imshare0.setLayoutParams(imrestart0lp);
+        imshare0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showShare();
+            }
+        });
+        endingdialog.setView(endingview);
+        endingdialog.setCancelable(false);
+
+        endingdialog.show();
 
     }
 
@@ -787,7 +834,9 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
             for (int j = 1; j <= 4; j ++) {
                 if (chess[i][j] == 0) {
                     mark = 1;
-                    break;
+                }
+                if (chess[i][j] > chessmax) {
+                    chessmax = chess[i][j];
                 }
             }
         }
@@ -811,12 +860,55 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         pending1.getLocationOnScreen(location1);
         pending2.getLocationOnScreen(location2);
 
-        TranslateAnimation nextanimation = new TranslateAnimation(0, location2[0]-location1[0], 0, location2[1]-location1[1]);
-        ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 2f, 1f, 2f);
+        final TranslateAnimation freezeanimation = new TranslateAnimation(0, 0, 0, 0);
+        freezeanimation.setDuration(10);
+        freezeanimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                pending2.setImageResource(getImageId(pending2value));
+                pending1.setImageResource(getImageId(pending1value));
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        TranslateAnimation nextanimation = new TranslateAnimation(0, (float)(location1[0]-location2[0])/1.6f
+                , 0, (float)(location1[1]-location2[1])/1.6f);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 1.6f, 1f, 1.6f);
         AnimationSet animationSet = new AnimationSet(true);
         animationSet.addAnimation(nextanimation);
         animationSet.addAnimation(scaleAnimation);
         animationSet.setDuration(1000);
+        animationSet.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                pending1.setImageResource(getImageId(0));
+                pending1value = pending2value;
+                Random random = new Random();
+                pending2value = random.nextInt(chessmax);
+                pending2value ++;
+                pending2.setImageResource(getImageId(0));
+                pending2.startAnimation(freezeanimation);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         pending2.startAnimation(animationSet);
     }
     private void execute() {
@@ -857,26 +949,6 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        // center chess largen & firework effect
-                                    /*
-                                    chess[x][y] = chess[x][y] + 1;
-                                    rmipmapid = getrmipmapid(chess[x][y]);
-                                    smallimageViewchess[x][y].setImageResource(rmipmapid);
-                                    smallimageViewchess[x][y].startAnimation(largen[round]);
-                                    Message message = new Message();
-                                    message.what = smallimageviewchesslargen;
-                                    handler.sendMessage(message);
-                                    if(chess[x][y] > chessmax) {
-                                        Message message1 = new Message();
-                                        message1.what = fireworkshotbig;
-                                        handler.sendMessage(message1);
-                                        chessmax = chess[x][y];
-                                    } else {
-                                        Message message2 = new Message();
-                                        message2.what = fireworkshotsmall;
-                                        handler.sendMessage(message2);
-                                    }
-                                    */
                         chess[x][y] += 1;
                         imageViewchess[x][y].setImageResource(getImageId(chess[x][y]));
                         for (int j = 1; j <= eliminatequeue[round][0]; j ++) {
@@ -910,7 +982,6 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
         imageViewchess[x][y].setZ(5);
         for (int j = 1; j <= eliminatequeue[round][0]; j ++) {
-            // chess[x + dx[eliminatequeue[round][j]]][y + dy[eliminatequeue[round][j]]] = 0;
             imageViewchess[x + dx[eliminatequeue[round][j]]][y + dy[eliminatequeue[round][j]]].setZ(10);
         }
 
@@ -947,13 +1018,14 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         if (roundnumber != 0) execute();
         else {
             checkfailure();
+            touchable = true;
         }
 
         Log.d("ProgressBar", currentmasks + "");
         if (roundnumber > 0) {
+            if (currentmasks > masks[level]) level ++;
             progressBar.setProgress((float)(currentmasks-masks[level-1])/(float)(masks[level]-masks[level-1]), roundnumber * 94 - 40);
             textcurrentmasks.setText(currentmasks+"");
-            if (currentmasks > masks[level]) level ++;
             levelnum.setText("Level " + level);
         }
     }
@@ -986,9 +1058,6 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     private void shotfirework(int time) {
 
         for(int i = 1; i <= 20; i ++) {
-            Log.d("shotfirework", x + " : " + y);
-            Log.d("setX", chessloaction[(x-1)*4+y][0] + "");
-            Log.d("setY", chessloaction[(x-1)*4+y][1] + "");
             firework[i].setX(chessloaction[(x-1)*4+y][0]+chessWidth/2-smallchessWidth/16);
             firework[i].setY(chessloaction[(x-1)*4+y][1]-chessboard.getY()-statusbarheight+chessWidth/2-smallchessWidth/16);
             firework[i].invalidate();
@@ -1029,73 +1098,4 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
     }
 
-    //EventBus.getDefault().post(0)z
-
-    /*
-    private int movefrompendingtochessboard = 1;
-    private int movefromchessboardtopending = 2;
-    private void movebetweenpendingandchessboard(int type) {
-        if(type == movefrompendingtochessboard) {
-            pending.startAnimation(transite[nowx*4 - 4 + nowy]);
-        } else {
-            imageViewchessboard.startAnimatio(reversetransite[nowx*4 - 4 + nowy]);
-        }
-    }
-
-
-    // ViewGroup --> FireworkSystem
-    private firework fireworkexample;
-    private void initfireworksystem() {
-        fireworkexample = new firework();
-    }
-    private class firework {
-        private ViewGroup fireworksystem[][] = new ViewGroup[10][10];
-        public firework() {
-            for(int i = 1; i <= 4; i ++) {
-                for(int j = 1; j <= 4; j ++) {
-                    fireworksystem[i][j].addview();
-                }
-            }
-        }
-        public void shot(int type) {
-            int x = nowx;
-            int y = nowy;
-        }
-    }
-    */
-
-    /*
-        final ValueAnimator valueAnimator = ValueAnimator.ofObject(new PointEvaluator(), new Point(50f, 50f), new Point(1000f, 1000f), new Point(500f, 500f));
-        valueAnimator.setDuration(3000);
-
-        valueAnimator.setInterpolator(new Interpolator() {
-            @Override
-            public float getInterpolation(float input) {
-                return input/2;
-            }
-        });
-
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Point point = (Point)animation.getAnimatedValue();
-                circle.x = point.getX();
-                circle.y = point.getY();
-                circle.invalidate();
-            }
-        });
-        valueAnimator.start();
-        Point point = new Point(50f, 50f);
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(circle, "x", 50f, 1000f, 500f);
-        objectAnimator.setDuration(3000);
-        objectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                // float x = (Float) animation.getAnimatedValue();
-                // circle.x = x;
-                circle.invalidate();
-            }
-        });
-        // objectAnimator.start();
-        */
 }

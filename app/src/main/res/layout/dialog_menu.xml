@@ -6,7 +6,6 @@
 
     <RelativeLayout
             android:id="@+id/rlrestart"
-            android:background="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -21,7 +20,6 @@
 
     <RelativeLayout
             android:id="@+id/rlcontinue"
-            android:background="@color/colorPrimaryDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         <ImageView
