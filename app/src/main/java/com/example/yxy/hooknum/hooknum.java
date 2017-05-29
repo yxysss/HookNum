@@ -41,6 +41,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         itemWidth = DisplayWidth * 12 / 100;
     }
 
+    // 加载游戏布局
+
     private int GAME_STATE = 0;
     private int evermaxchess, evermaxscore;
     private RelativeLayout maskboard, rlcurrentmasks, rlhighestmasks, rlhighesttitle;
@@ -749,6 +751,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
     private int chessmax = 1;
 
+    // 检测游戏是否结束
+
     private AlertDialog endingdialog;
 
     private View endingview;
@@ -845,6 +849,9 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         }
     }
 
+
+    // 消除系统
+
     private int x, y;
     private int[] time = {0,54,54,54,54,54,54,54,54,54};
     private int[] masks = {0, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500, 5500};
@@ -854,6 +861,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     private int side;
     private int sidex;
     private int sidey;
+
+    // 棋子变化
     private void nextchange() {
         int[] location1 = new int[2];
         int[] location2 = new int[2];
@@ -1030,6 +1039,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         }
     }
 
+
+    // 烟花系统
 
     private int[][] chessloaction = new int[17][3];
     private ImageView[] firework = new ImageView[22];
