@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class ActivityCollector {
 
+
     public static Activity activity = null;
 
     public static void add(Activity activity0) {
