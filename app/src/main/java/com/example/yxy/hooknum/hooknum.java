@@ -657,6 +657,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
                 }
             });
             pending1.startAnimation(animationSets[x*4-4+y]);
+            nextchange();
             /*
             if(GAME_STATE == 0)  {
                 this.x = x;
@@ -797,13 +798,27 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
     private int x, y;
     private int[] time = {0,54,54,54,54,54,54,54,54,54};
-    private int[] masks = {0, 100, 200, 300, 400, 500, 600};
+    private int[] masks = {0, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500, 5500};
     private int level = 1;
     private int dx[] = {0, -1, -1, -1, 0, 0, 1, 1, 1};
     private int dy[] = {0, -1, 0, 1, -1, 1, -1, 0, 1};
     private int side;
     private int sidex;
     private int sidey;
+    private void nextchange() {
+        int[] location1 = new int[2];
+        int[] location2 = new int[2];
+        pending1.getLocationOnScreen(location1);
+        pending2.getLocationOnScreen(location2);
+
+        TranslateAnimation nextanimation = new TranslateAnimation(0, location2[0]-location1[0], 0, location2[1]-location1[1]);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 2f, 1f, 2f);
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(nextanimation);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.setDuration(1000);
+        pending2.startAnimation(animationSet);
+    }
     private void execute() {
         final ScaleAnimation freeze = new ScaleAnimation(1, 1, 1, 1);
         freeze.setDuration(40);
