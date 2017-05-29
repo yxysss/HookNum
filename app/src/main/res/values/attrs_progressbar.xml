@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressBar">
+        <attr name="progress" format="fraction"/> <!--当前进度-->
+        <attr name="progresscolor" format="color"/> <!--进度条显示颜色-->
+        <attr name="backgroundcolor" format="color"/> <!--进度条背景显示颜色-->
+        <attr name="aroundcolor" format="color"/> <!--进度条包围框显示颜色-->
+        <attr name="verticallength" format="fraction"/> <!--纵向进度条占比-->
+        <attr name="horizontallength" format="fraction"/> <!--横向进度条占比-->
+    </declare-styleable>
+</resources>

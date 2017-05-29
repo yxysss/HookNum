@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:yxy="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_hooknum"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.yxy.hooknum.hooknum">
+
+    <TextView
+            android:text="Banner Advertisement"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+
+    <RelativeLayout
+            android:id="@+id/maskboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RelativeLayout
+                android:id="@+id/currentmasks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/textcurrentmasks"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/everhighestmasks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/highestmasks"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/everhighesttitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/highesttitle"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+    <ImageView
+            android:id="@+id/pending1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <ImageView
+            android:id="@+id/pending2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <com.example.yxy.hooknum.MyProgressBar
+            yxy:progress="0%"
+            yxy:aroundcolor="#1ec9dc"
+            android:layout_below="@+id/maskboard"
+            android:id="@+id/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+
+    <RelativeLayout
+            android:id="@+id/chessboard"
+            android:layout_below="@+id/maskboard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ImageView
+                android:id="@+id/smallchess1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/smallchess16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:id="@+id/chessboardbackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        <ImageView
+                android:id="@+id/chess1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/chess16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+                android:id="@+id/chesslocation1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocatio15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/chesslocation16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/itemsboard"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/menuitem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/advitem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/bombitem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/levelnum"
+                android:layout_alignParentEnd="true"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
