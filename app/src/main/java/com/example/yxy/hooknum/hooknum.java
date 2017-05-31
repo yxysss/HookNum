@@ -22,7 +22,9 @@ import java.util.Random;
 
 public class hooknum extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener{
 
-    private boolean touchable = true;
+    private int touchable = 0;
+
+    private boolean musicplay = true;
 
     private int DisplayWidth, DisplayHeight;
     private int chessmargin, smallchessmargin;
@@ -109,14 +111,15 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
 
     private int chess[][] = new int[10][10];
-    private int hassavedbefore = 0;
-    private int checkhassaved() {
-        return 1;
-    }
     private void initchessboard() {
         for(int i = 0; i <= 5; i ++) {
             for(int j = 0; j <= 5; j ++) {
                 chess[i][j] = -1;
+            }
+        }
+        for (int i = 1; i <= 4; i ++) {
+            for (int j = 1; j <= 4; j ++) {
+                chess[i][j] = 0;
             }
         }
     }
@@ -284,7 +287,19 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         immusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (musicplay) {
+                    musicplay = false;
+                    immusic.setImageResource(R.mipmap.musicoff);
+                    SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+                    editor.putBoolean("music", false);
+                    editor.apply();
+                } else {
+                    musicplay = true;
+                    immusic.setImageResource(R.mipmap.music);
+                    SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+                    editor.putBoolean("music", true);
+                    editor.apply();
+                }
             }
         });
         rlshare = (RelativeLayout) menuview.findViewById(R.id.rlshare);
@@ -448,6 +463,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
         evermaxchess = sharedPreferences.getInt("maxchess", 0);
         evermaxscore = sharedPreferences.getInt("maxscore", 0);
+        musicplay = sharedPreferences.getBoolean("music", true);
     }
 
     @Override
@@ -456,6 +472,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_hooknum);
         statusbarheight = getStatusBarHeight();
         ActivityCollector.add(this);
+        MusicPlay.Build(this);
         getmaxchessandscore();
         measurechessboard();
         loadmaskboardandprogressbar();
@@ -518,7 +535,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (!touchable) return false;
+        if (touchable != 0) return false;
         System.out.println("onTouch");
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -579,34 +596,22 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
             animationload = true;
         }
 
-        touchable = false;
+        touchable ++;
         Bundle bundle = getviewindex(view);
         x = bundle.getInt("x");
         y = bundle.getInt("y");
-        if(x>0&x<5&y>0&y<5) {
+        Log.d("touchhandler", "x : " + x + ", " + "y : " + y);
+        if(x>0&&x<5&&y>0&&y<5) {
 
-            if (GAME_STATE == 1) {
-                if (chess[x][y] == 0) {
-                    GAME_STATE = 0;
-                    touchable = true;
-                    return ;
-                }
-                chess[x][y] = 0;
-                imageViewchess[x][y].setImageResource(getImageId(0));
-
-                GAME_STATE = 0;
-                touchable = true;
-                return ;
-
-            }
+            Log.d("chess", chess[x][y] + "");
             if (chess[x][y] != 0) {
-                touchable = true;
+                touchable --;
                 return ;
             }
             animationSets[x*4-4+y].setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
-
+                    touchable ++;
                 }
 
                 @Override
@@ -614,6 +619,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
                     chess[x][y] = pending1value;
                     imageViewchess[x][y].setImageResource(getImageId(chess[x][y]));
                     eliminate();
+                    touchable --;
                 }
 
                 @Override
@@ -862,6 +868,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
             public void onAnimationEnd(Animation animation) {
                 pending2.setImageResource(getImageId(pending2value));
                 pending1.setImageResource(getImageId(pending1value));
+                touchable --;
             }
 
             @Override
@@ -880,7 +887,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         animationSet.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                touchable ++;
             }
 
             @Override
@@ -923,7 +930,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         });
         if (round >= roundnumber) {
             if (roundnumber != 0) shotfirework(1000);
-            touchable = true;
+            touchable --;
             return ;
         }
         round ++;
@@ -935,6 +942,10 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
                 move[side].setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
+
+                        if (musicplay == true) {
+                            MusicPlay.playmusic();
+                        }
 
                     }
 
@@ -1009,7 +1020,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         if (roundnumber != 0) execute();
         else {
             checkfailure();
-            touchable = true;
+            touchable --;
         }
 
         Log.d("ProgressBar", currentmasks + "");
