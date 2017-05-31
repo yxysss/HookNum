@@ -20,7 +20,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import java.lang.reflect.Field;
 import java.util.Random;
 
-public class hooknum extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener{
+public class hooknum extends AppCompatActivity implements View.OnTouchListener{
 
     private int touchable = 0;
 
@@ -30,6 +30,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     private int chessmargin, smallchessmargin;
     private int chessWidth, smallchessWidth;
     private int itemWidth;
+
+    // 设计棋盘的高度和宽度
     private void measurechessboard() {
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
@@ -44,8 +46,6 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
 
     // 加载游戏布局
-
-    private int GAME_STATE = 0;
     private int evermaxchess, evermaxscore;
     private RelativeLayout maskboard, rlcurrentmasks, rlhighestmasks, rlhighesttitle;
     private TextView textcurrentmasks, highestmasks, highesttitle;
@@ -53,6 +53,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     private int pending1value, pending2value;
     private RelativeLayout.LayoutParams maskboardlp, pending1lp, pending2lp, progressbarlp, rlcurrentmaskslp, rlhighestmaskslp, rlhighesttitlelp;
     private MyProgressBar progressBar;
+
+    // 加载棋盘和进度条
     private void loadmaskboardandprogressbar() {
         maskboard = (RelativeLayout) findViewById(R.id.maskboard);
         maskboardlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, smallchessWidth);
@@ -111,6 +113,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
 
     private int chess[][] = new int[10][10];
+
+    // 初始化棋盘
     private void initchessboard() {
         for(int i = 0; i <= 5; i ++) {
             for(int j = 0; j <= 5; j ++) {
@@ -207,6 +211,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         }
     }
 
+    // 分享功能
     private void showShare() {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
@@ -243,6 +248,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     private RelativeLayout.LayoutParams rlrestartlp, rlcontinuelp, rlmusiclp, rlsharelp;
     private RelativeLayout.LayoutParams imrestartlp;
     private AlertDialog menudialog;
+    // 加载下方的菜单图形
     private void loaditemview() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         menudialog = builder.create();
@@ -342,6 +348,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     private TranslateAnimation move[] = new TranslateAnimation[21];
     private TranslateAnimation moveanimation[] = new TranslateAnimation[11];
     private int movetime[] = new int[11];
+    // 加载棋子移动的动画
     private void loadnewmoveanimation() {
         int centerlocation[] = new int[2];
         pending1.getLocationOnScreen(centerlocation);
@@ -436,9 +443,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
     }
 
-    // RecyclerView.Adapter
 
-
+    // 获取状态栏的高度
     private int getStatusBarHeight() {
         Class<?> c;
         Object obj;
@@ -459,6 +465,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
     private int statusbarheight;
 
+    // 开局前获得历史最高分
     private void getmaxchessandscore() {
         SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
         evermaxchess = sharedPreferences.getInt("maxchess", 0);
@@ -466,6 +473,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         musicplay = sharedPreferences.getBoolean("music", true);
     }
 
+
+    // 加载图形界面
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -481,6 +490,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         loaditemview();
     }
 
+    // 获取棋子对应的图片
     private int getImageId(int value) {
         switch (value) {
             case 0:
@@ -528,11 +538,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         }
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
-
+    // 处理棋盘点击事件
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (touchable != 0) return false;
@@ -728,6 +734,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     private int roundnumber = 0;
     private int eliminatequeue[][] = new int[10][10];
     private int scoreinround[] = new int[10];
+
+    // 初始化消除序列
     private void initeliminatequeue() {
         for (int i = 1; i <= 9; i ++) {
             eliminatequeue[i][0] = 0;
@@ -736,8 +744,6 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
 
     private int chessmax = 1;
-
-    // 检测游戏是否结束
 
     private AlertDialog endingdialog;
 
@@ -751,6 +757,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
     private RelativeLayout.LayoutParams rltextlp, rlmaxchesslp, rlrestart0lp, rlshare0lp, immaxchesslp, imrestart0lp;
 
+    // 执行游戏结束
     private void performfailure() {
 
         SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
@@ -818,6 +825,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
 
     }
 
+    // 检测游戏是否结束
     private void checkfailure() {
         int mark = 0;
         for (int i = 1; i <= 4; i ++) {
@@ -836,7 +844,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
 
 
-    // 消除系统
+    /** 消除系统 **/
 
     private int x, y;
     private int[] time = {0,54,54,54,54,54,54,54,54,54};
@@ -848,7 +856,7 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     private int sidex;
     private int sidey;
 
-    // 棋子变化
+    // 棋子的变化
     private void nextchange() {
         pending1cover.setImageResource(getImageId(0));
         int[] location1 = new int[2];
@@ -909,6 +917,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
         });
         pending2.startAnimation(animationSet);
     }
+
+    // 棋子的消除
     private void execute() {
         final ScaleAnimation freeze = new ScaleAnimation(1, 1, 1, 1);
         freeze.setDuration(40);
@@ -1033,11 +1043,13 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
 
 
-    // 烟花系统
+    /** 烟花系统 **/
 
     private int[][] chessloaction = new int[17][3];
     private ImageView[] firework = new ImageView[22];
     private RelativeLayout.LayoutParams fireworklp;
+
+    // 加载烟花
     private void fireworkprepare() {
 
         for(int i = 1; i <= 4; i ++) {
@@ -1059,6 +1071,8 @@ public class hooknum extends AppCompatActivity implements View.OnClickListener, 
     }
 
     private TranslateAnimation[] fireworkanimation = new TranslateAnimation[22];
+
+    // 播放烟花效果
     private void shotfirework(int time) {
 
         for(int i = 1; i <= 20; i ++) {
