@@ -533,6 +533,67 @@ public class hooknum extends AppCompatActivity implements View.OnTouchListener{
                 return R.mipmap.s18;
             case 19:
                 return R.mipmap.s19;
+            case 20:
+                return R.mipmap.s20;
+            case 21:
+                return R.mipmap.s21;
+            case 22:
+                return R.mipmap.s22;
+            case 23:
+                return R.mipmap.s23;
+            case 24:
+                return R.mipmap.s24;
+            case 25:
+                return R.mipmap.s25;
+            case 26:
+                return R.mipmap.s26;
+            case 27:
+                return R.mipmap.s27;
+            case 28:
+                return R.mipmap.s28;
+            case 29:
+                return R.mipmap.s29;
+            case 30:
+                return R.mipmap.s30;
+            case 31:
+                return R.mipmap.s31;
+            case 32:
+                return R.mipmap.s32;
+            case 33:
+                return R.mipmap.s33;
+            case 34:
+                return R.mipmap.s34;
+            case 35:
+                return R.mipmap.s35;
+            case 36:
+                return R.mipmap.s36;
+            case 37:
+                return R.mipmap.s37;
+            case 38:
+                return R.mipmap.s38;
+            case 39:
+                return R.mipmap.s39;
+            case 40:
+                return R.mipmap.s40;
+            case 41:
+                return R.mipmap.s41;
+            case 42:
+                return R.mipmap.s42;
+            case 43:
+                return R.mipmap.s43;
+            case 44:
+                return R.mipmap.s44;
+            case 45:
+                return R.mipmap.s45;
+            case 46:
+                return R.mipmap.s46;
+            case 47:
+                return R.mipmap.s47;
+            case 48:
+                return R.mipmap.s48;
+            case 49:
+                return R.mipmap.s49;
+
             default:
                 return R.color.transparent;
         }
