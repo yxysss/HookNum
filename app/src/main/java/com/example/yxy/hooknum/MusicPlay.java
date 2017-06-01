@@ -8,7 +8,10 @@ import android.media.SoundPool;
 /**
  * Created by Y.X.Y on 2017/5/31 0031.
  */
-class MusicPlay {
+public class MusicPlay {
+
+
+    // 音效播放功能
 
     private static SoundPool soundPool;
     private static int soundId;
